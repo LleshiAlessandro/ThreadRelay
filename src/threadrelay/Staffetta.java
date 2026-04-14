@@ -9,5 +9,12 @@ package threadrelay;
  * @author lleshi.alessandro
  */
 public class Staffetta {
+    private boolean occupato;
     
+    public boolean getOccupato(){
+        return occupato;
+    }
+    public void setOccupato(boolean x){
+        occupato = x;
+    }
 }

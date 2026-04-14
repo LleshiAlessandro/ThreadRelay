@@ -8,6 +8,20 @@ package threadrelay;
  *
  * @author lleshi.alessandro
  */
-public class Altleta {
+public class Altleta extends Thread{
+    private Staffetta staffetta = new Staffetta();
+    private int contatore;
     
+    public Altleta(Staffetta s){
+        staffetta = s;
+        contatore = 0;
+    }
+    
+    
+    @Override
+    public void run(){
+        synchronized(staffetta){
+            
+        }
+    }
 }

@@ -4,6 +4,9 @@
  */
 package threadrelay;
 
+import java.awt.*;
+import javax.swing.*;
+
 /**
  *
  * @author lleshi.alessandro
@@ -17,6 +20,62 @@ public class ThreadForm extends javax.swing.JFrame {
      */
     public ThreadForm() {
         initComponents();
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JLabel labelTitle = new JLabel("Staffetta");
+        labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        labelTitle.setVerticalAlignment(SwingConstants.CENTER);
+        labelTitle.setFont(new Font("Arial", Font.BOLD, 36));
+        JPanel nameBarPanel = new JPanel(new GridLayout(4,1, 50,50));
+        nameBarPanel.add(new JLabel("atleta 1"));
+        nameBarPanel.add(new JLabel("atleta 2"));
+        nameBarPanel.add(new JLabel("atleta 3"));
+        nameBarPanel.add(new JLabel("atleta 4"));
+        
+        JPanel barPanel = new JPanel(new GridLayout(4,1, 50,50));
+
+        JProgressBar bar1 = new JProgressBar();
+        JProgressBar bar2 = new JProgressBar();
+        JProgressBar bar3 = new JProgressBar();
+        JProgressBar bar4 = new JProgressBar();
+        barPanel.add(bar1);
+        barPanel.add(bar2);
+        barPanel.add(bar3);
+        barPanel.add(bar4);
+        
+        JPanel buttonPanel = new JPanel(new GridLayout(1,4, 20, 20));
+        JButton button1 = new JButton("avvia");
+        button1.addActionListener(e -> {
+            // TODO: Avvia
+        });
+        
+        JButton button2 = new JButton("stop");
+        button2.addActionListener(e -> {
+            // TODO: Avvia
+        });
+        
+        JButton button3 = new JButton("pausa");
+        button3.addActionListener(e -> {
+            // TODO: Avvia
+        });
+        
+        JButton button4 = new JButton("riprendi");
+        button4.addActionListener(e -> {
+            // TODO: Avvia
+        });
+        
+        
+        buttonPanel.add(button1);
+        buttonPanel.add(button2);
+        buttonPanel.add(button3);
+        buttonPanel.add(button4);
+        
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+        mainPanel.add(nameBarPanel, BorderLayout.WEST);
+        mainPanel.add(barPanel, BorderLayout.CENTER);
+        mainPanel.add(labelTitle, BorderLayout.NORTH);
+        
+        this.add(mainPanel);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     /**
@@ -29,17 +88,6 @@ public class ThreadForm extends javax.swing.JFrame {
     private void initComponents() {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

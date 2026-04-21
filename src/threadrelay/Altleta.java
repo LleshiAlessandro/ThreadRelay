@@ -44,4 +44,10 @@ public class Altleta extends Thread{
             System.out.println(e);
         }
     }
+
+    public long getContatore() {
+        return contatore;
+    }
+    
+    
 }

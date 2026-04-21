@@ -14,12 +14,14 @@ import javax.swing.*;
 public class ThreadForm extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ThreadForm.class.getName());
-    ThreadManager thM;
+    private ThreadManager thM;
+    private Thread th = new Thread();
     /**
      * Creates new form ThreadForm
      */
     public ThreadForm() {
         initComponents();
+        
         thM = new ThreadManager();
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel labelTitle = new JLabel("Staffetta");
@@ -34,19 +36,25 @@ public class ThreadForm extends javax.swing.JFrame {
         
         JPanel barPanel = new JPanel(new GridLayout(4,1, 50,50));
 
-        JProgressBar bar1 = new JProgressBar();
-        JProgressBar bar2 = new JProgressBar();
-        JProgressBar bar3 = new JProgressBar();
-        JProgressBar bar4 = new JProgressBar();
+        JProgressBar bar1 = new JProgressBar(0, 99);
+        JProgressBar bar2 = new JProgressBar(0, 99);
+        JProgressBar bar3 = new JProgressBar(0, 99);
+        JProgressBar bar4 = new JProgressBar(0, 99);
         barPanel.add(bar1);
         barPanel.add(bar2);
         barPanel.add(bar3);
         barPanel.add(bar4);
+        bar1.setStringPainted(true);
+        bar2.setStringPainted(true);
+        bar3.setStringPainted(true);
+        bar4.setStringPainted(true);
+        
         
         JPanel buttonPanel = new JPanel(new GridLayout(1,4, 20, 20));
         JButton button1 = new JButton("avvia");
         button1.addActionListener(e -> {
             thM.start();
+            bar1.setValue((int)thM.a1.getContatore());
         });
         
         JButton button2 = new JButton("stop");

@@ -10,6 +10,12 @@ package threadrelay;
  */
 public class Staffetta {
     private boolean occupato;
+
+    public Staffetta() {
+        this.occupato = false;
+    }
+    
+    
     
     public boolean getOccupato(){
         return occupato;

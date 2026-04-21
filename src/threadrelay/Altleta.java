@@ -10,18 +10,38 @@ package threadrelay;
  */
 public class Altleta extends Thread{
     private Staffetta staffetta = new Staffetta();
-    private int contatore;
+    private long contatore;
     
     public Altleta(Staffetta s){
         staffetta = s;
         contatore = 0;
     }
     
+    public void aumentaContatore(){
+        for(int i = 0; i < 100; i++){
+            i++;
+        }
+    }
     
     @Override
     public void run(){
-        synchronized(staffetta){
-            
+        try{
+            synchronized(staffetta){
+                if(staffetta.getOccupato() == false){
+                    staffetta.setOccupato(true);
+                    while(contatore >= 100){
+                        Thread.sleep(contatore);//non sono sicuro che quando il contatore arriva a 99 il thread smetta lo sleep
+                        this.aumentaContatore();
+                    }
+                    staffetta.setOccupato(false);
+                    staffetta.notifyAll();
+                }
+                else{
+                    staffetta.wait();
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e);
         }
     }
 }

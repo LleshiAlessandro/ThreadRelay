@@ -14,12 +14,13 @@ import javax.swing.*;
 public class ThreadForm extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ThreadForm.class.getName());
-
+    ThreadManager thM;
     /**
      * Creates new form ThreadForm
      */
     public ThreadForm() {
         initComponents();
+        thM = new ThreadManager();
         JPanel mainPanel = new JPanel(new BorderLayout());
         JLabel labelTitle = new JLabel("Staffetta");
         labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -45,7 +46,7 @@ public class ThreadForm extends javax.swing.JFrame {
         JPanel buttonPanel = new JPanel(new GridLayout(1,4, 20, 20));
         JButton button1 = new JButton("avvia");
         button1.addActionListener(e -> {
-            // TODO: Avvia
+            thM.start();
         });
         
         JButton button2 = new JButton("stop");

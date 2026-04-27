@@ -15,31 +15,37 @@ public class ThreadForm extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ThreadForm.class.getName());
     private ThreadManager thM;
-    private Thread th = new Thread();
+    private JProgressBar[] bars;
     /**
      * Creates new form ThreadForm
      */
     public ThreadForm() {
         initComponents();
         
-        thM = new ThreadManager();
         JPanel mainPanel = new JPanel(new BorderLayout());
+//titolo---------------------------------------------------------------------------------------------------------
         JLabel labelTitle = new JLabel("Staffetta");
         labelTitle.setHorizontalAlignment(SwingConstants.CENTER);
         labelTitle.setVerticalAlignment(SwingConstants.CENTER);
         labelTitle.setFont(new Font("Arial", Font.BOLD, 36));
+        
+//nome atleti (panel a sx)---------------------------------------------------------------------------------------
         JPanel nameBarPanel = new JPanel(new GridLayout(4,1, 50,50));
         nameBarPanel.add(new JLabel("atleta 1"));
         nameBarPanel.add(new JLabel("atleta 2"));
         nameBarPanel.add(new JLabel("atleta 3"));
         nameBarPanel.add(new JLabel("atleta 4"));
         
+        
+//progress bar (panel e bar)--------------------------------------------------------------------------------------
         JPanel barPanel = new JPanel(new GridLayout(4,1, 50,50));
 
-        JProgressBar bar1 = new JProgressBar(0, 99);
-        JProgressBar bar2 = new JProgressBar(0, 99);
-        JProgressBar bar3 = new JProgressBar(0, 99);
-        JProgressBar bar4 = new JProgressBar(0, 99);
+        JProgressBar bar1 = new JProgressBar(0, 100);
+        JProgressBar bar2 = new JProgressBar(0, 100);
+        JProgressBar bar3 = new JProgressBar(0, 100);
+        JProgressBar bar4 = new JProgressBar(0, 100);
+        bars = new JProgressBar[] {bar1, bar2, bar3, bar4};
+        thM = new ThreadManager(bars);
         barPanel.add(bar1);
         barPanel.add(bar2);
         barPanel.add(bar3);
@@ -50,11 +56,13 @@ public class ThreadForm extends javax.swing.JFrame {
         bar4.setStringPainted(true);
         
         
+//bottoni (start, stop, pausa, riprendi)--------------------------------------------------------------------------
         JPanel buttonPanel = new JPanel(new GridLayout(1,4, 20, 20));
         JButton button1 = new JButton("avvia");
         button1.addActionListener(e -> {
-            thM.start();
-            bar1.setValue((int)thM.a1.getContatore());
+            if (thM != null) {
+                thM.start();
+            }
         });
         
         JButton button2 = new JButton("stop");
@@ -72,12 +80,14 @@ public class ThreadForm extends javax.swing.JFrame {
             // TODO: Avvia
         });
         
-        
+//add bottoni al panel sud----------------------------------------------------------------------------------------
         buttonPanel.add(button1);
         buttonPanel.add(button2);
         buttonPanel.add(button3);
         buttonPanel.add(button4);
         
+        
+//add i panel al main panel---------------------------------------------------------------------------------------
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
         mainPanel.add(nameBarPanel, BorderLayout.WEST);
         mainPanel.add(barPanel, BorderLayout.CENTER);

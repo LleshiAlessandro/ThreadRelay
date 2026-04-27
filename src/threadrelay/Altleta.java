@@ -4,43 +4,56 @@
  */
 package threadrelay;
 
+import javax.swing.JProgressBar;
+
 /**
  *
  * @author lleshi.alessandro
  */
 public class Altleta extends Thread{
-    private Staffetta staffetta = new Staffetta();
+    private Staffetta staffetta;
     private long contatore;
+    private int numTh;
+    private JProgressBar[] bars;
     
-    public Altleta(Staffetta s){
+    public Altleta(Staffetta s, int numTh,  JProgressBar[] bars){
         staffetta = s;
         contatore = 0;
+        this.numTh = numTh;
+        this.bars = bars;
     }
     
     public void aumentaContatore(){
-        for(int i = 0; i < 100; i++){
-            i++;
-        }
+            contatore++;
     }
     
     @Override
     public void run(){
         try{
-            synchronized(staffetta){
-                if(staffetta.getOccupato() == false){
-                    staffetta.setOccupato(true);
-                    while(contatore >= 100){
-                        Thread.sleep(contatore);//non sono sicuro che quando il contatore arriva a 99 il thread smetta lo sleep
-                        this.aumentaContatore();
+            while(contatore < 100){
+
+                synchronized(staffetta) {
+
+                    while (staffetta.getOccupato()) {
+                        staffetta.wait();
                     }
+
+                    staffetta.setOccupato(true);
+
+                    aumentaContatore();
+
+                    // aggiornamento diretto (come richiesto)
+                    bars[numTh].setValue((int) contatore);
+                    bars[numTh].setString(contatore + "%");
+
+                    Thread.sleep(100);
+
                     staffetta.setOccupato(false);
                     staffetta.notifyAll();
                 }
-                else{
-                    staffetta.wait();
-                }
             }
-        }catch(Exception e){
+
+        } catch (InterruptedException e) {
             System.out.println(e);
         }
     }

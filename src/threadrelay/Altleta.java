@@ -28,34 +28,33 @@ public class Altleta extends Thread{
     }
     
     @Override
-    public void run(){
-        try{
-            while(contatore < 100){
+    public void run() {
+         try {
+        while (contatore < 100) {
 
-                synchronized(staffetta) {
+            synchronized (staffetta) {
 
-                    while (staffetta.getOccupato()) {
-                        staffetta.wait();
-                    }
-
-                    staffetta.setOccupato(true);
-
-                    aumentaContatore();
-
-                    // aggiornamento diretto (come richiesto)
-                    bars[numTh].setValue((int) contatore);
-                    bars[numTh].setString(contatore + "%");
-
-                    Thread.sleep(100);
-
-                    staffetta.setOccupato(false);
-                    staffetta.notifyAll();
+                while (staffetta.getOccupato()) {
+                    staffetta.wait();
                 }
+
+                staffetta.setOccupato(true);
+
+                contatore++;
+
+                bars[numTh].setValue((int) contatore);
+                bars[numTh].setString(contatore + "%");
+
+                staffetta.setOccupato(false);
+                staffetta.notify(); // NON notifyAll
             }
 
-        } catch (InterruptedException e) {
-            System.out.println(e);
+            Thread.sleep(10);
         }
+
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
     }
 
     public long getContatore() {

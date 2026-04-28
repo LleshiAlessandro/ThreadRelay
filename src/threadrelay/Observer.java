@@ -9,5 +9,5 @@ package threadrelay;
  * @author lleshi.alessandro
  */
 public interface Observer {
-    public void update(int valore);
+    public void update(Atleta a);
 }

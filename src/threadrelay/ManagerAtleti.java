@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class ManagerAtleti implements Observer{
 
     private ArrayList<Atleta> atlets = new ArrayList();
+    private ArrayList<Thread> threads = new ArrayList();
     private boolean garaIniziata = false;
     private FormAtleti f;
     
@@ -33,16 +34,21 @@ public class ManagerAtleti implements Observer{
             garaIniziata = true;
             for(Atleta a: atlets){
                 a.setValore(0);
+                threads.add(new Thread(a));
             }
-            new Thread(atlets.getFirst()).start();
+            threads.getFirst().start();
         }
     }
     
-
+    public void stopGara(){
+        for(Thread th : threads){
+            th.interrupt();
+        }
+    }
     @Override
     public void update(Atleta a) {
         if(a.getValore() == 90 && atlets.size() - 1 > atlets.indexOf(a)){
-            new Thread(atlets.get(atlets.indexOf(a) + 1)).start();
+            threads.get(atlets.indexOf(a) + 1).start();
         }
         else if(atlets.get(3).getValore() == 100){
             garaIniziata = false;

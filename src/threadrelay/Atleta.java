@@ -58,6 +58,7 @@ public class Atleta implements Runnable, Subject{
              Thread.sleep(50);
          } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
+                break;
             }
             setValore(valore + 1);
         }

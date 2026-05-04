@@ -66,6 +66,10 @@ public class FormAtleti extends javax.swing.JFrame implements Observer {
         
         
         JButton stop = new JButton("stop");
+        stop.addActionListener(e -> {
+            mA.stopGara();
+            
+        });
         JButton pausa = new JButton("pausa");
         JButton riprendi = new JButton("riprendi");
         

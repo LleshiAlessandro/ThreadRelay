@@ -18,24 +18,43 @@ public class FormAtleti extends javax.swing.JFrame implements Observer {
     private ArrayList<Atleta> atleti;
     private JProgressBar[] bars;
     protected JButton start;
-    /**
+    protected JComboBox<String> velocitaCombo;
+    /**su
      * Creates new form FormAtleti
      */
     public FormAtleti(ManagerAtleti mA) {
         initComponents();
-        mainP = new JPanel(new BorderLayout());
+        mainP = new JPanel(new BorderLayout(12, 12));
+        mainP.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
+        mainP.setBackground(new Color(246, 248, 251));
+        setTitle("Thread Relay");
         
-        JPanel titolo = new JPanel();
-        titolo.add(new JLabel("STAFFETTA DEI THREAD"));
+        JPanel titolo = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        titolo.setBackground(mainP.getBackground());
+        JLabel titoloLabel = new JLabel("STAFFETTA DEI THREAD");
+        titoloLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
+        titoloLabel.setForeground(new Color(26, 39, 57));
+        titolo.add(titoloLabel);
         
         
-        JPanel barsPanel = new JPanel(new GridLayout(4,1, 20,20));
+        JPanel barsPanel = new JPanel(new GridLayout(4, 1, 12, 12));
+        barsPanel.setOpaque(false);
         bars = new JProgressBar[4];
+        Color[] laneColors = {
+            new Color(46, 125, 50),
+            new Color(21, 101, 192),
+            new Color(239, 108, 0),
+            new Color(123, 31, 162)
+        };
         
         for(int i = 0; i < 4; i++){
             JProgressBar b = new JProgressBar(0, 100);
             bars[i] = b;
-            b.getValue();
+            b.setValue(0);
+            b.setStringPainted(true);
+            b.setForeground(laneColors[i]);
+            b.setBackground(Color.WHITE);
+            b.setFont(new Font("SansSerif", Font.BOLD, 12));
             barsPanel.add(b);
         }
         
@@ -50,15 +69,33 @@ public class FormAtleti extends javax.swing.JFrame implements Observer {
         barsPanel.add(bar4);
         */
         
-        JPanel nomiPanel = new JPanel(new GridLayout(4,1, 20,20));
+        JPanel nomiPanel = new JPanel(new GridLayout(4, 1, 12, 12));
+        nomiPanel.setOpaque(false);
         
-        nomiPanel.add(new JLabel("atleta 1"));
-        nomiPanel.add(new JLabel("atleta 2"));
-        nomiPanel.add(new JLabel("atleta 3"));
-        nomiPanel.add(new JLabel("atleta 4"));
+        nomiPanel.add(createLaneLabel("Atleta 1"));
+        nomiPanel.add(createLaneLabel("Atleta 2"));
+        nomiPanel.add(createLaneLabel("Atleta 3"));
+        nomiPanel.add(createLaneLabel("Atleta 4"));
         
-        JPanel buttonPanel = new JPanel(new GridLayout(1,4, 20,20));
+        JPanel controlPanel = new JPanel(new BorderLayout(0, 12));
+        controlPanel.setOpaque(false);
+
+        JPanel speedPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        speedPanel.setOpaque(false);
+        JLabel velocitaLabel = new JLabel("Velocita:");
+        velocitaLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
+        velocitaLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 8));
+        velocitaCombo = new JComboBox<>(new String[]{"lento", "normale", "veloce"});
+        velocitaCombo.setSelectedIndex(1);
+        velocitaCombo.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        velocitaCombo.setBackground(Color.WHITE);
+        speedPanel.add(velocitaLabel);
+        speedPanel.add(velocitaCombo);
+
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 10, 10));
+        buttonPanel.setOpaque(false);
         start = new JButton("start");
+        styleButton(start);
         start.addActionListener(e -> {
             mA.startGara();
             
@@ -66,16 +103,19 @@ public class FormAtleti extends javax.swing.JFrame implements Observer {
         
         
         JButton stop = new JButton("stop");
+        styleButton(stop);
         stop.addActionListener(e -> {
             mA.stopGara();
             
         });
         JButton pausa = new JButton("pausa");
+        styleButton(pausa);
         pausa.addActionListener(e -> {
             mA.pausaGara();
             
         });
         JButton riprendi = new JButton("riprendi");
+        styleButton(riprendi);
         riprendi.addActionListener(e -> {
             mA.riprendiGara();
             
@@ -85,14 +125,19 @@ public class FormAtleti extends javax.swing.JFrame implements Observer {
         buttonPanel.add(stop);
         buttonPanel.add(pausa);
         buttonPanel.add(riprendi);
+        controlPanel.add(speedPanel, BorderLayout.NORTH);
+        controlPanel.add(buttonPanel, BorderLayout.SOUTH);
         
         mainP.add(titolo, BorderLayout.NORTH);
         mainP.add(barsPanel, BorderLayout.CENTER);
-        mainP.add(new JPanel(), BorderLayout.EAST);
+        JPanel spacer = new JPanel();
+        spacer.setOpaque(false);
+        mainP.add(spacer, BorderLayout.EAST);
         mainP.add(nomiPanel, BorderLayout.WEST);
-        mainP.add(buttonPanel, BorderLayout.SOUTH);
+        mainP.add(controlPanel, BorderLayout.SOUTH);
         this.add(mainP);
-        this.setSize(400, 400);
+        this.setSize(560, 400);
+        this.setLocationRelativeTo(null);
     }
     
     
@@ -151,4 +196,17 @@ public class FormAtleti extends javax.swing.JFrame implements Observer {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    private JLabel createLaneLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font("SansSerif", Font.BOLD, 13));
+        label.setForeground(new Color(44, 62, 80));
+        return label;
+    }
+
+    private void styleButton(JButton button) {
+        button.setFont(new Font("SansSerif", Font.BOLD, 13));
+        button.setBackground(new Color(233, 238, 245));
+        button.setFocusPainted(false);
+    }
 }

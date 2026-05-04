@@ -29,6 +29,7 @@ public class ManagerAtleti implements Observer{
     }
     
     public void startGara(){
+        threads.clear();
         f.start.setEnabled(false);
         if(garaIniziata == false){
             garaIniziata = true;
@@ -43,8 +44,28 @@ public class ManagerAtleti implements Observer{
     public void stopGara(){
         for(Thread th : threads){
             th.interrupt();
+            
+        }
+        for(Atleta a : atlets){
+            a.setValore(0);
+        }
+        garaIniziata = false;
+        f.start.setEnabled(true);
+    }
+    
+    public void pausaGara(){
+        for(Thread th : threads){
+            th.interrupt();
+            
         }
     }
+    
+    public void riprendiGara(){
+        
+    }
+    
+    
+    
     @Override
     public void update(Atleta a) {
         if(a.getValore() == 90 && atlets.size() - 1 > atlets.indexOf(a)){

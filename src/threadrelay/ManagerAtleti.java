@@ -35,6 +35,16 @@ public class ManagerAtleti implements Observer{
             garaIniziata = true;
             for(Atleta a: atlets){
                 a.setValore(0);
+                a.setPaused(false);
+                if(f.velocitaCombo.getSelectedItem().equals("lento")){
+                    a.setTime(60);
+                }
+                else if(f.velocitaCombo.getSelectedItem().equals("veloce")){
+                    a.setTime(10);
+                }
+                else{
+                    a.setTime(35);
+                }
                 threads.add(new Thread(a));
             }
             threads.getFirst().start();
@@ -42,6 +52,9 @@ public class ManagerAtleti implements Observer{
     }
     
     public void stopGara(){
+        for(Atleta a : atlets){
+            a.riprendiDaPausa();
+        }
         for(Thread th : threads){
             th.interrupt();
             
@@ -54,14 +67,15 @@ public class ManagerAtleti implements Observer{
     }
     
     public void pausaGara(){
-        for(Thread th : threads){
-            th.interrupt();
-            
+        for(Atleta a : atlets){
+            a.setPaused(true);
         }
     }
     
     public void riprendiGara(){
-        
+        for(Atleta a : atlets){
+            a.riprendiDaPausa();
+        }
     }
     
     

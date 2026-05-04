@@ -15,6 +15,9 @@ public class Atleta implements Runnable, Subject{
 
     private int valore = 0;
     private boolean attivo = true;
+    private long time = 50;
+    private volatile boolean paused = false;
+    private Object pauseLock = new Object();
 
 
     @Override
@@ -50,15 +53,45 @@ public class Atleta implements Runnable, Subject{
     public void ferma() {
         attivo = false;
     }
-    
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public void riprendiDaPausa() {
+        synchronized (pauseLock) {
+            paused = false;
+            pauseLock.notifyAll();
+        }
+    }
+
     @Override
     public void run() {
         while (attivo && valore < 100) {
-         try {
-             Thread.sleep(50);
-         } catch (InterruptedException e) {
+            synchronized (pauseLock) {
+                while (paused) {
+                    try {
+                        pauseLock.wait();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
+
+            try {
+                Thread.sleep(time);
+            } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                break;
+                return;
             }
             setValore(valore + 1);
         }
